@@ -130,3 +130,5 @@ dmypy.json
 
 # key
 config.py
+config.js
+
