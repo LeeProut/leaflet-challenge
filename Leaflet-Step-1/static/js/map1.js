@@ -2,7 +2,7 @@
 // this data is updated every minute
 var geoJson = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
-console.log(geoJson);
+// console.log(geoJson);
 
 // loop through the feature data and select elements for popup
 function onEachFeature(feature,layer) {
@@ -11,11 +11,18 @@ function onEachFeature(feature,layer) {
     <h3>${feature.properties.place}</h3>
     <h5>Magnitude: ${feature.properties.mag}</h5>
     `);
-  }
+    var circle = L.circle(feature.coordinates, {
+      radius : markerSize(feature.properties.mag), 
+      fillColor: fillCircleColor(feature.properties.mag)
+    });
+    
+    circle.addTo(myMap);
+};
+
 
 // request to the query URL
 d3.json(geoJson, function(data) {
-    console.log(data);
+    // console.log(data);
     var earthquakes = data.features;
 
     var earthquakesLayer = L.geoJSON(earthquakes, {
@@ -60,3 +67,63 @@ L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
 }).addTo(myMap);  
 }
+
+// color for circle marker
+d3.json(geoJson, function(data) {
+  console.log(data);
+  var earthquakes = data.features;
+  console.log(earthquakes.properties);
+  var magnitude = data.features.properties.mag;
+  console.log(magnitude);
+
+function fillCircleColor(mag) {
+  switch (mag) {
+    case mag >= 5: 
+      return "red";
+    case mag > 4: 
+      return "orange";
+    case mag > 3: 
+      return "orange";
+    case mag > 2:
+      return "yellow";
+    case mag > 1: 
+      return "yellow";
+    case mag > 0: 
+      return "green";        
+  }
+} 
+
+// multiply mag for marker size for visibility
+function markerSize(mag) {
+  return mag * 10000;
+}
+
+  // earthquakes.forEach(quake => {
+  //   color = "purple"
+  //   if (magnitude >= 5) {
+  //     color = "red"
+  //   } else if (magnitude > 4.1) {
+  //     color = "orange"
+  //   } else if (magnitude > 3.1) {
+  //     color = "orange"
+  //   } else if (magnitude > 2.1) {
+  //     color = "yellow"
+  //   } else if (magnitude > 1.1) {
+  //     color = "yellow"
+  //   } else if (magnitude > 0) {
+  //     color = "green"
+  //   }  
+  // console.log(quake.properties.mag);
+
+  var circle = L.circle(geometry.coordinates) 
+  console.log(geometry.coordinates); 
+
+  var earthquakesLayer = L.geoJSON(earthquakes, {
+      onEachFeature: onEachFeature,
+  });
+  createMap(earthquakesLayer);
+});
+//});
+
+
+
