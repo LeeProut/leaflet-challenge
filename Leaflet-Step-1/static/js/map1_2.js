@@ -2,10 +2,7 @@
 // this data is updated every minute
 var geoJson = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
-// var magnitude = []; 
-// var coordinates = [];
-// var place = [];
-
+// use .then for d3? 
 // d3.json(geoJson).then((data) => {
 //     onEachFeature(data.features);
 //     console.log(data.features);
@@ -51,7 +48,7 @@ function createFeatures(earthquakeData) {
         radius: markerSize(feature.properties.mag), 
         fillcolor: fillCircleColor(feature.properties.mag)
     });
-    //circleMarker.addTo(myMap);
+    circle.addTo(myMap);
   };   
 
   function onEachFeature(earthquakeData) {
@@ -63,9 +60,9 @@ function createFeatures(earthquakeData) {
       onEachFeature: onEachFeature    
   });
 
-//   var earthquakesLayer = L.geoJSON(earthquakes, {
-//       onEachFeature: onEachFeature,
-//   });
+  var earthquakes = L.geoJSON(earthquakeData, {
+      pointToLayer: circleMarker
+  });
 
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakesLayer);
