@@ -9,10 +9,17 @@ var geoJson = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_mon
 // });
 
 // Perform a GET request to the geoJson URL
-d3.json(geoJson, function(data){
+// d3.json(geoJson, function(data){
+//     // Once we get a response, send the data.features object to the createFeatures function
+//     createFeatures(data.features);
+// });
+
+d3.json(geoJson).then(data => {
+    console.log(data);
     // Once we get a response, send the data.features object to the createFeatures function
     createFeatures(data.features);
 });
+
 
 // Define a function to determine the fill color of the circles by the magnitude of the Earthquake
 function fillCircleColor(mag) {
@@ -53,7 +60,7 @@ function createFeatures(earthquakeData) {
 
   function onEachFeature(earthquakeData) {
     var mag = earthquakeData.properties.mag
-    console.log(mag);
+    // console.log(mag);
   };
 
   var earthquakesLayer = L.geoJSON(earthquakeData, {
