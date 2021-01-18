@@ -2,9 +2,9 @@
 // this data is updated every minute
 var geoJson = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
-var magnitude = []; 
-var coordinates = [];
-var place = [];
+// var magnitude = []; 
+// var coordinates = [];
+// var place = [];
 
 // d3.json(geoJson).then((data) => {
 //     onEachFeature(data.features);
@@ -17,6 +17,31 @@ d3.json(geoJson, function(data){
     createFeatures(data.features);
 });
 
+// Define a function to determine the fill color of the circles by the magnitude of the Earthquake
+function fillCircleColor(mag) {
+    switch (mag) {
+      case mag >= 5: 
+        return "red";
+      case mag > 4: 
+        return "orange";
+      case mag > 3: 
+        return "orange";
+      case mag > 2:
+        return "yellow";
+      case mag > 1: 
+        return "yellow";
+      case mag > 0: 
+        return "green";        
+    }
+};
+
+
+// define a function to multiply mag for marker size for visibility
+function markerSize(mag) {
+    return mag * 10000;
+};
+
+// Define a function for the features to include on the map
 function createFeatures(earthquakeData) {
 
 // Define a function we want to run once for each feature in the features array 
@@ -26,7 +51,7 @@ function createFeatures(earthquakeData) {
         radius: markerSize(feature.properties.mag), 
         fillcolor: fillCircleColor(feature.properties.mag)
     });
-    circle.addTo(myMap);
+    //circleMarker.addTo(myMap);
   };   
 
   function onEachFeature(earthquakeData) {
@@ -34,28 +59,21 @@ function createFeatures(earthquakeData) {
     console.log(mag);
   };
 
-  var earthquakes = L.geoJSON(earthquakeData, {
-      onEachFeature: onEachFeature  
+  var earthquakesLayer = L.geoJSON(earthquakeData, {
+      onEachFeature: onEachFeature    
   });
 
+//   var earthquakesLayer = L.geoJSON(earthquakes, {
+//       onEachFeature: onEachFeature,
+//   });
+
   // Sending our earthquakes layer to the createMap function
-  createMap(earthquakes);
+  createMap(earthquakesLayer);
 
 //close createFeatures function
 };
+createFeatures();
 
-// d3.json(geoJson, function(data){
-//     console.log(data);
-
-//     var getMag = data.properties.mag;
-//     console.log(getMag);
-//     getMag.forEach(quake => {
-//         mag = quake.mag; 
-//         magnitude.push(mag);
-//     }) 
-// })
-
-// console.log(magnitude);
 
 // function for creating the map
 function createMap(earthquakesLayer) {
@@ -93,4 +111,4 @@ function createMap(earthquakesLayer) {
     }).addTo(myMap);  
     };
 
-createMap();    
+// createMap();    
