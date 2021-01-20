@@ -51,7 +51,7 @@ function createFeatures(earthquakeData) {
 // Define a function we want to run once for each feature in the features array 
   function circleMarker(feature, layer) {
     //var mag = feature.properties.mag; 
-    var circle = L.circle(feature.coordinates, {
+    var circle = L.circleMarker(feature.coordinates, {
         radius: markerSize(feature.properties.mag), 
         fillColor: fillCircleColor(feature.properties.mag),
         fillOpacity: 0.75  
@@ -61,7 +61,7 @@ function createFeatures(earthquakeData) {
 
   function onEachFeature(earthquakeData) {
     var mag = earthquakeData.properties.mag
-    console.log(mag);
+    // console.log(mag);
   };
 
   var earthquakesLayer = L.geoJSON(earthquakeData, {
