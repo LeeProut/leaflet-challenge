@@ -47,13 +47,13 @@ d3.json(geoJson).then(data => {
       case mag > 4: 
         return "#225ea8";
       case mag > 3: 
-        return "#1d91c0";
-      case mag > 2:
         return "#41b6c4";
-      case mag > 1: 
+      case mag > 2:
         return "#7fcdbb";
+      case mag > 1: 
+        return "#c7e9b4";
       case mag > 0: 
-        return "#c7e9b4";        
+        return "#F4A460";        
     }
   }; 
     
