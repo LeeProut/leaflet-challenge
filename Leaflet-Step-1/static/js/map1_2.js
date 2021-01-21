@@ -2,10 +2,10 @@
 // this data is updated every minute
 var geoJson = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
-// Create a new map
+// Create a new map, centering over the Salt Lake City Airport to visualize earthquakes on the West Coast and Midwest U.S.
 var myMap = L.map("map", {
   center: [
-    37.09, -95.71
+    40.79004113996794, -111.97816943898866
   ],
   zoom: 5,
 });
@@ -36,53 +36,73 @@ d3.json(geoJson).then(data => {
     console.log(data);
     var earthquakes = data.features;
     console.log(earthquakes);
-    //var earthquakesLayer = L.geoJSON(earthquakes, {
-      //onEachFeature: onEachEarthquake
-    //}
+    // var earthquakesLayer = L.geoJSON(earthquakes, {
+    //   onEachFeature: onEachEarthquake
+  //}
+  // color scheme from Color Brewer: https://colorbrewer2.org/#type=sequential&scheme=YlGnBu&n=7
   function fillCircleColor(mag) {
       switch (true) {
       case mag >= 5: 
-        return "red";
+        return "#0c2c84";
       case mag > 4: 
-        return "orange";
+        return "#225ea8";
       case mag > 3: 
-        return "orange";
+        return "#1d91c0";
       case mag > 2:
-        return "yellow";
+        return "#41b6c4";
       case mag > 1: 
-        return "yellow";
+        return "#7fcdbb";
       case mag > 0: 
-        return "green";        
+        return "#c7e9b4";        
     }
   }; 
     
   function markerSize(mag) {
-    return mag * 10000;
+    return mag * 4;
   };
 
-  function onEachEarthquake(feature, layer) {
-
-    function styleCircles(feature) {
-          //var mag = feature.properties.mag; 
-      return {
-          radius: markerSize(feature.properties.mag), 
-          fillColor: fillCircleColor(feature.properties.mag),
-          fillOpacity: 0.75  
-      }; 
-    };  
+  //function onEachEarthquake(feature,layer) {
+     
+    // function styleCircles(feature) {
+    //     //var mag = feature.properties.mag;
+    //   return {
+    //       radius: markerSize(feature.properties.mag), 
+    //       fillColor: fillCircleColor(feature.properties.mag),
+    //       fillOpacity: 0.75  
+    //   }; 
+    // };  
              
   //};
 
     L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {        
-      return L.circleMarker(latlng);
+        return L.circleMarker(latlng, {
+          radius: markerSize(feature.properties.mag),
+          color: fillCircleColor(feature.properties.mag), 
+          fillColor: fillCircleColor(feature.properties.mag),
+          fillOpacity: 0.75 
+        });
       },
-      style: styleCircles,
+      //style: styleCircles,
       
-      onEachFeature: onEachEarthquake 
+      //onEachFeature: onEachEarthquake 
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup(`
+        <h3>${feature.properties.place}</h3>
+        <h5>Magnitude: ${feature.properties.mag}</h5>
+        `);
+      }
     }).addTo(myMap);
-  };   
-}); 
+  
+  //}; 
+  
+  // function onEachFeature(feature, layer) {
+  //   layer.bindPopup(`
+  //   <h3>${feature.properties.place}</h3>
+  //   <h5>Magnitude: ${feature.properties.mag}</h5>
+  //   `);
+//}
+});
   
 
       
