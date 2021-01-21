@@ -61,19 +61,6 @@ d3.json(geoJson).then(data => {
     return mag * 4;
   };
 
-  //function onEachEarthquake(feature,layer) {
-     
-    // function styleCircles(feature) {
-    //     //var mag = feature.properties.mag;
-    //   return {
-    //       radius: markerSize(feature.properties.mag), 
-    //       fillColor: fillCircleColor(feature.properties.mag),
-    //       fillOpacity: 0.75  
-    //   }; 
-    // };  
-             
-  //};
-
     L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {        
         return L.circleMarker(latlng, {
@@ -102,7 +89,35 @@ d3.json(geoJson).then(data => {
   //   <h5>Magnitude: ${feature.properties.mag}</h5>
   //   `);
 //}
-});
+//closing d3
+//}
+
+    // add legend to map
+    // https://leafletjs.com/examples/choropleth/
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+      
+      var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 1, 2, 3, 4, 5],
+        labels = ["<b>Magnitude</b>"];
+
+      // loop through our density intervals and generate a label with a colored square for each interval
+      for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+          labels.push('<i style="background:' + fillCircleColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'));
+      }
+      div.innerHTML = labels.join("<br>");
+
+      return div;
+    };
+
+// add legend to map 
+    legend.addTo(myMap);
+//closing D3
+  });
+
   
 
       
