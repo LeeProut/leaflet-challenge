@@ -42,10 +42,10 @@ d3.json(geoJson).then(data => {
   // color scheme from Color Brewer: https://colorbrewer2.org/#type=sequential&scheme=YlGnBu&n=7
   function fillCircleColor(mag) {
       switch (true) {
-      case mag >= 5: 
+      case mag > 5: 
         return "#0c2c84";
       case mag > 4: 
-        return "#225ea8";
+        return "#1d91c0";
       case mag > 3: 
         return "#41b6c4";
       case mag > 2:
