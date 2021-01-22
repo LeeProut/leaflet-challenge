@@ -12,7 +12,8 @@ var myMap = L.map("map", {
   zoom: 3,
 });
 
-L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+// define map layers
+var lightMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
       attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
       tileSize: 512,
       maxZoom: 18,
@@ -20,6 +21,29 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
       id: "mapbox/light-v10",
       accessToken: API_key
     }).addTo(myMap);
+
+var satMap =  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+      attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+      tileSize: 512,
+      maxZoom: 18,
+      zoomOffset: -1,
+      id: "mapbox/satellite-v9",
+      accessToken: API_key
+    }).addTo(myMap); 
+    
+// Define a baseMaps object to hold base layers
+var baseMaps = {
+    "Light Map": lightMap,
+    "Sat Map": satMap
+};
+
+// var overlayMaps = {}
+
+// add control for layers
+L.control.layers(baseMaps, {
+    // collapsed: false
+}).addTo(myMap);
+
 
     d3.json(geoJson).then(data => {
         console.log(data);
@@ -93,6 +117,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 //closing D3
   });
 
+// bring in techtonic plate data   
   d3.json(techPlates).then(plateData => {
     console.log(plateData);
     var plates = plateData.features;
