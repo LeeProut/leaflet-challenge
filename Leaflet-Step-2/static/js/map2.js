@@ -5,12 +5,13 @@ var geoJson = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_mon
 var techPlates = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json"
 
 // Create a new map, centering over Topeka, Kansas to show the entire U.S.
-var myMap = L.map("map", {
-  center: [
-    39.06263402134599, -95.72554190670454
-  ],
-  zoom: 3,
-});
+// var myMap = L.map("map", {
+//   center: [
+//     39.06263402134599, -95.72554190670454
+//   ],
+//   zoom: 3,
+//   layers: [lightMap, satMap]
+// });
 
 // define map layers
 var lightMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -20,7 +21,7 @@ var lightMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/
       zoomOffset: -1,
       id: "mapbox/light-v10",
       accessToken: API_key
-    }).addTo(myMap);
+    });
 
 var satMap =  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
       attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
@@ -29,7 +30,16 @@ var satMap =  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
       zoomOffset: -1,
       id: "mapbox/satellite-v9",
       accessToken: API_key
-    }).addTo(myMap); 
+    }); 
+
+// Create a new map, centering over Topeka, Kansas to show the entire U.S.
+var myMap = L.map("map", {
+  center: [
+    39.06263402134599, -95.72554190670454
+  ],
+  zoom: 3,
+  layers: [lightMap, satMap]
+});    
     
 // Define a baseMaps object to hold base layers
 var baseMaps = {
@@ -37,10 +47,16 @@ var baseMaps = {
     "Sat Map": satMap
 };
 
-// var overlayMaps = {}
+var quakesLayer = L.layerGroup();
+var platesLayer = L.layerGroup();
+
+var overlayMaps = {
+  Earthquakes: quakesLayer,
+  Plates: platesLayer
+}
 
 // add control for layers
-L.control.layers(baseMaps, {
+L.control.layers(baseMaps, overlayMaps, {
     // collapsed: false
 }).addTo(myMap);
 
@@ -89,7 +105,8 @@ L.control.layers(baseMaps, {
             <h5>Magnitude: ${feature.properties.mag}</h5>
             `);
           }
-        }).addTo(myMap);
+        }).addTo(quakesLayer);
+          quakesLayer.addTo(myMap);
 
      // add legend to map
     // https://leafletjs.com/examples/choropleth/
@@ -122,4 +139,12 @@ L.control.layers(baseMaps, {
     console.log(plateData);
     var plates = plateData.features;
     console.log(plates);
+
+
+  //add to platesLayer
+  //add to myMap    
+
+// closing D3    
   });
+
+  
