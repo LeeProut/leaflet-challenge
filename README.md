@@ -55,7 +55,7 @@ Light map with Earthquakes | Popup on markers
 
 #### Adding a Second Dataset
 - Rendered Earthquake Data 
-- Added [Data](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json) on Tectonic Plates 
+- Added [Data](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json) on Tectonic Plates, downloaded from [Hugo Ahlenius](https://github.com/fraxen/tectonicplates), with [Corey Sterling](https://github.com/csterling) given credit for the GeoJson data. 
 
 #### JavaScript
 
