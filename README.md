@@ -1,6 +1,6 @@
 # Mapping Earthquake Data 
 
-## Visualizing United States Geological Survey (USGS) data using Leaflet and Mapbox.  
+### Visualizing United States Geological Survey (USGS) data using Leaflet and Mapbox, in JavaScript, HTML/CSS.  
 
 ### Part One: 
 
