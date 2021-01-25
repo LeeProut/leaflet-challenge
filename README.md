@@ -1,19 +1,19 @@
 # Mapping Earthquake Data 
 
-#### Visualizing United States Geological Survey (USGS) data using Leaflet and Mapbox.  
+## Visualizing United States Geological Survey (USGS) data using Leaflet and Mapbox.  
 
 ### Part One: 
 
-###### Data selection 
+#### Data selection 
 - GeoJson data from the [USGS](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) Earthquake Hazards Program
   - [All Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson) from the past 30 days 
   - updated every minute
 
-###### HTML/CSS 
+#### HTML/CSS 
 - brought in the necessary script tags to html for leaflet, d3, and the config file with Mapbox API key
 - css for sizing map and styling legend 
 
-###### JavaScript
+#### JavaScript
 - Leaflet and Mapbox for rendering maps, checking the console to confirm data is called with d3
 
 ```// Create a new map, centering over the Salt Lake City Airport to visualize earthquakes on the West Coast and Midwest U.S.
@@ -47,13 +47,17 @@ d3.json(geoJson).then(data => {
 - legend for color reference to magnitude
 - popup on any marker for further information
 
+Light map with Earthquakes | Popup on markers
+-------- | --------
+![Part One Map 1](/images/Map1_1.png) | ![Part One Map 2](/images/Map1_2.png)
+
 ### Part Two:
 
-###### Adding a Second Dataset
+#### Adding a Second Dataset
 - Rendered Earthquake Data 
 - Added [Data](https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json) on Tectonic Plates 
 
-###### JavaScript
+#### JavaScript
 
 - organized code for additional map layers with a control for the user to select the map and data they'd like to view
 
@@ -78,5 +82,4 @@ Light map with Earthquakes and Plates | Satellite map with Plates
 -------- | --------
 ![Map Image 1](/images/Map2_1.png) | ![Map Image 2](/images/Map2_2.png)
 Outdoors map with Earthquakes and Plates | Light map with Earthquakes and Popup
--------- | --------
 ![Map Image 3](/images/Map2_3.png) | ![Map Image 4](/images/Map2_4.png)
